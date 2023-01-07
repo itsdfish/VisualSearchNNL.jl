@@ -1,9 +1,34 @@
 name = "VisualSearchNNL"
 uuid = "8200ae2f-6a37-441a-b3b5-7e32b67ad1ee"
-authors = ["itsdfish <itsdfish@gmail.com> and contributors"]
+authors = ["itsdfish"]
 version = "0.1.0"
 
+[deps]
+ACTRModels = "c095b0ea-a6ca-5cbd-afed-dbab2e976880"
+BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+Interpolations = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
+KernelDensity = "5ab0869b-81aa-558d-bb23-cbf5423bbe9b"
+MKL = "33e6dc65-8f57-5167-99aa-e5a354878fb2"
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+ThreadedIterables = "11d239b0-c0b9-11e8-1935-d5cfa53abb03"
+VisualSearchACTR = "ad0872d7-b137-4624-87af-d763ac8dea1a"
+
 [compat]
+ACTRModels = "0.10.0"
+BSON = "0.3.6"
+CSV = "0.10.9"
+DataFrames = "1.0.0"
+Flux = "0.13.0"
+Interpolations = "0.14.7"
+KernelDensity = "0.6.5"
+MKL = "0.6.0"
+ProgressMeter = "1.7.2"
+ThreadedIterables = "0.2.1"
+VisualSearchACTR = "0.3.0"
 julia = "1"
 
 [extras]

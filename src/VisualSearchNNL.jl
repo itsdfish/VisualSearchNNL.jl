@@ -1,5 +1,11 @@
 module VisualSearchNNL
+    using Flux
+    using VisualSearchACTR
+    using ProgressMeter
+    using Interpolations
+    using KernelDensity
+    export make_training_batch
 
-# Write your package code here.
-
+    include("functions.jl")
+    include("flux_utilities.jl")
 end
