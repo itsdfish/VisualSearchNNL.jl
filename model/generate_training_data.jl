@@ -16,7 +16,7 @@ n_parms = 100
 # number of test parms 
 n_parms_test = 1000
 # number of sampled data points per parameter vector
-n_samples = 100
+n_samples = 200
 # number of simulated trails for KDE 
 n_trials = 25_000
 ppi = 72
@@ -41,7 +41,7 @@ tmap(i -> begin
             println("file id $i")
             sim_data = make_training_batch(;n_parms, exp_parms, n_samples, n_trials, fixed_parms...)
             # save training data 
-            CSV.write(string("training_data", i ,".csv"), DataFrame(sim_data, :auto))
+            CSV.write(string("training_data/training_data", i ,".csv"), DataFrame(sim_data, :auto))
         end,
 file_ids)
 ###################################################################################################
@@ -49,9 +49,9 @@ file_ids)
 ###################################################################################################
 Random.seed!(254)
 temp_data = make_training_batch(;n_parms=n_parms_test, exp_parms, n_samples, n_trials, fixed_parms...)
-sim_data = hcat(temp_data...)
+# sim_data = hcat(temp_data...)
 # save test data 
-CSV.write(string("test_data.csv"), DataFrame(sim_data, :auto))
+CSV.write(string("training_data/test_data.csv"), DataFrame(temp_data, :auto))
 
 
 

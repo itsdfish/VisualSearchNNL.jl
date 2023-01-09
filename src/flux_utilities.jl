@@ -44,7 +44,7 @@ function train_model(
     max_loss = -Inf
     min_loss = Inf
     @showprogress for i in 1:n_epochs
-        Flux.train!(loss_fn, params(model), train_data, opt)
+        Flux.train!(loss_fn, Flux.params(model), train_data, opt)
         train_loss[i] = loss_fn(train_x, train_y)
         test_loss[i] = loss_fn(test_data.x, test_data.y)
         loss = round(train_loss[i], digits=4)

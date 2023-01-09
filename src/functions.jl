@@ -78,5 +78,15 @@ function robust_kernel(rts, choices, c, prob)
     return kd
 end
 
+function read_data(file_name; path=pwd())
+    return Float32.(Array(CSV.read(path * "/" * file_name, DataFrame)))
+end
+
+function get_files(name_stem; path=pwd())
+    all_files = readdir(path)
+    files = filter(f -> contains(f, name_stem), all_files)
+    return sort!(files)
+end
+
 kernel_dist(::Type{Epanechnikov}, w::Float64) = Epanechnikov(0.0, w)
 kernel(data) = kde(data; kernel=Epanechnikov)
