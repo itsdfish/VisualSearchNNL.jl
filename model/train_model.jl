@@ -5,7 +5,7 @@ cd(@__DIR__)
 using Pkg
 Pkg.activate("../")
 using Revise, MKL, VisualSearchNNL, Plots, Flux, Distributions, Random, ProgressMeter
-using ACTRModels, DataFrames, CSV, CUDA
+using ACTRModels, DataFrames, CSV
 using Flux: params
 using BSON: @save
 Random.seed!(5025)
@@ -21,7 +21,7 @@ sim_data = mapreduce(f -> read_data(f; path), hcat, training_files)
 train_x = sim_data[1:6,:]
 # log likelihoods
 train_y = sim_data[end,:]'
-train_data = Flux.Data.DataLoader((train_x, train_y) |> gpu, batchsize=500)
+train_data = Flux.Data.DataLoader((train_x, train_y), batchsize=500)
 ###################################################################################################
 #                                     load test data
 ###################################################################################################
@@ -42,13 +42,13 @@ model = Chain(
     Dense(6, 100, tanh),
     Dense(100, 100, tanh),
     Dense(100, 120, tanh),
-    Dense(120, 1, identity)) |> gpu
+    Dense(120, 1, identity))
 
 # check our model
 params(model)
 
 # loss function
-loss_fn(a, b) = Flux.huber_loss(model(a), b) 
+loss_fn(a, b) = Flux.huber_loss(model(a), b)
 
 # optimization algorithm 
 opt = ADAM(0.001)
@@ -71,6 +71,7 @@ train_loss,test_loss = train_model(
 )
 
 # save the model for later
+model = model |> cpu
 @save "visual_search.bson" model
 ###################################################################################################
 #                                      Plot Training

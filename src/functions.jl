@@ -4,9 +4,9 @@ function rand_parms(;
         set_size_dist = 2:2:20
     )
     Δτ = rand(Δτ_dist)
-    top_down_weight = rand(topdown_weight_dist)
+    topdown_weight = rand(topdown_weight_dist)
     set_size = rand(set_size_dist)
-    return (;Δτ,top_down_weight,set_size)
+    return (;Δτ,topdown_weight,set_size)
 end
 
 function make_training_batch(; n_parms, kwargs...)
@@ -21,7 +21,7 @@ end
     make_training_data(; exp_parms, n_samples, n_trials, fixed_parms...)
 
 Generates a set of training data where each column is a vector containing: rt, choice,
-stimulus_present (2: present, 1: absent), set_size, Δτ, top_down_weight, LL
+stimulus_present (2: present, 1: absent), set_size, Δτ, topdown_weight, LL
 
 # Keywords 
 
@@ -31,15 +31,15 @@ stimulus_present (2: present, 1: absent), set_size, Δτ, top_down_weight, LL
 - `fixed_parms...`: variable keyword arguments for model parameters 
 """
 function make_training_data(; exp_parms, n_samples, n_trials, fixed_parms...)
-    (;Δτ,top_down_weight,set_size) = rand_parms()
+    (;Δτ,topdown_weight,set_size) = rand_parms()
     data = zeros(Float32, 7, n_samples)
     # 1: absent, 2: present
     present = rand(1:2)
-    kdes = create_kde(;n_trials, exp_parms, set_size, present, Δτ, top_down_weight, fixed_parms...)
+    kdes = create_kde(;n_trials, exp_parms, set_size, present, Δτ, topdown_weight, fixed_parms...)
     for c ∈ 1:n_samples       
-        choice,rt = generate_data(1; set_size, exp_parms, present, Δτ, top_down_weight, fixed_parms...)
+        choice,rt = generate_data(1; set_size, exp_parms, present, Δτ, topdown_weight, fixed_parms...)
         LL = kde_logpdf(kdes, choice[1], rt[1])
-        data[:,c] = [rt[1] choice[1] present set_size Δτ top_down_weight LL]
+        data[:,c] = [rt[1] choice[1] present set_size Δτ topdown_weight LL]
     end
     return data
 end
@@ -52,7 +52,7 @@ function generate_data(n_trials ;present, set_size, exp_parms, parms...)
     experiment = Experiment(;n_trials, n_color_distractors, 
                             n_shape_distractors, set_size, exp_parms...)
     experiment.base_rate = present - 1
-    model = run_condition!(experiment; parms...);
+    run_condition!(experiment; parms...)
     responses = map(x -> x.response == :present ? 2 : 1, experiment.data)
     rts = map(x -> x.rt, experiment.data)
     return responses, rts
