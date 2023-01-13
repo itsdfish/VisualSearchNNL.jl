@@ -47,7 +47,7 @@ rts = all_rts[choices .== choice]
 # rt[1] choice[1] present set_size Δτ top_down_weight
 
 ts = range(.2, 1.5, length=100)
-LLs = map(t -> model([t, choice, present, set_size, Δτ, top_down_weight])[1], ts)
+LLs = map(t -> model([t, choice, present, set_size, Δτ, topdown_weight])[1], ts)
 dens = exp.(LLs)
 hist = histogram(rts, normalize=true)
 hist[1][1][:y] .*= p_choice
